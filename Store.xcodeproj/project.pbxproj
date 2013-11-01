@@ -23,6 +23,22 @@
 		AF890294181C9CD000BC1FD1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF890270181C9CD000BC1FD1 /* UIKit.framework */; };
 		AF89029C181C9CD000BC1FD1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AF89029A181C9CD000BC1FD1 /* InfoPlist.strings */; };
 		AF89029E181C9CD000BC1FD1 /* StoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF89029D181C9CD000BC1FD1 /* StoreTests.m */; };
+		AF8902A8181C9D1200BC1FD1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8902A7181C9D1200BC1FD1 /* AudioToolbox.framework */; };
+		AF8902AD181CA35200BC1FD1 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8902AC181CA35200BC1FD1 /* MainView.m */; };
+		AFAB8DB1181DB73500EE3F1E /* new.wav in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DB0181DB73500EE3F1E /* new.wav */; };
+		AFAB8DBE181DBF0D00EE3F1E /* 0.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DB2181DBF0D00EE3F1E /* 0.bmp */; };
+		AFAB8DBF181DBF0D00EE3F1E /* 1.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DB3181DBF0D00EE3F1E /* 1.bmp */; };
+		AFAB8DC0181DBF0D00EE3F1E /* 2.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DB4181DBF0D00EE3F1E /* 2.bmp */; };
+		AFAB8DC1181DBF0D00EE3F1E /* 3.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DB5181DBF0D00EE3F1E /* 3.bmp */; };
+		AFAB8DC2181DBF0D00EE3F1E /* 4.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DB6181DBF0D00EE3F1E /* 4.bmp */; };
+		AFAB8DC3181DBF0D00EE3F1E /* 5.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DB7181DBF0D00EE3F1E /* 5.bmp */; };
+		AFAB8DC4181DBF0D00EE3F1E /* 6.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DB8181DBF0D00EE3F1E /* 6.bmp */; };
+		AFAB8DC5181DBF0D00EE3F1E /* 7.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DB9181DBF0D00EE3F1E /* 7.bmp */; };
+		AFAB8DC6181DBF0D00EE3F1E /* 8.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DBA181DBF0D00EE3F1E /* 8.bmp */; };
+		AFAB8DC7181DBF0D00EE3F1E /* 9.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DBB181DBF0D00EE3F1E /* 9.bmp */; };
+		AFAB8DC8181DBF0D00EE3F1E /* 10.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DBC181DBF0D00EE3F1E /* 10.bmp */; };
+		AFAB8DC9181DBF0D00EE3F1E /* 11.bmp in Resources */ = {isa = PBXBuildFile; fileRef = AFAB8DBD181DBF0D00EE3F1E /* 11.bmp */; };
+		AFAB8DCC181DC8AE00EE3F1E /* Algorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAB8DCB181DC8AE00EE3F1E /* Algorithm.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +74,24 @@
 		AF890299181C9CD000BC1FD1 /* StoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StoreTests-Info.plist"; sourceTree = "<group>"; };
 		AF89029B181C9CD000BC1FD1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AF89029D181C9CD000BC1FD1 /* StoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreTests.m; sourceTree = "<group>"; };
+		AF8902A7181C9D1200BC1FD1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		AF8902AB181CA34B00BC1FD1 /* MainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
+		AF8902AC181CA35200BC1FD1 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
+		AFAB8DB0181DB73500EE3F1E /* new.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = new.wav; sourceTree = "<group>"; };
+		AFAB8DB2181DBF0D00EE3F1E /* 0.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 0.bmp; sourceTree = "<group>"; };
+		AFAB8DB3181DBF0D00EE3F1E /* 1.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 1.bmp; sourceTree = "<group>"; };
+		AFAB8DB4181DBF0D00EE3F1E /* 2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 2.bmp; sourceTree = "<group>"; };
+		AFAB8DB5181DBF0D00EE3F1E /* 3.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 3.bmp; sourceTree = "<group>"; };
+		AFAB8DB6181DBF0D00EE3F1E /* 4.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 4.bmp; sourceTree = "<group>"; };
+		AFAB8DB7181DBF0D00EE3F1E /* 5.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 5.bmp; sourceTree = "<group>"; };
+		AFAB8DB8181DBF0D00EE3F1E /* 6.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 6.bmp; sourceTree = "<group>"; };
+		AFAB8DB9181DBF0D00EE3F1E /* 7.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 7.bmp; sourceTree = "<group>"; };
+		AFAB8DBA181DBF0D00EE3F1E /* 8.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 8.bmp; sourceTree = "<group>"; };
+		AFAB8DBB181DBF0D00EE3F1E /* 9.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 9.bmp; sourceTree = "<group>"; };
+		AFAB8DBC181DBF0D00EE3F1E /* 10.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 10.bmp; sourceTree = "<group>"; };
+		AFAB8DBD181DBF0D00EE3F1E /* 11.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = 11.bmp; sourceTree = "<group>"; };
+		AFAB8DCA181DC8AE00EE3F1E /* Algorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Algorithm.h; sourceTree = "<group>"; };
+		AFAB8DCB181DC8AE00EE3F1E /* Algorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Algorithm.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF8902A8181C9D1200BC1FD1 /* AudioToolbox.framework in Frameworks */,
 				AF89026F181C9CD000BC1FD1 /* CoreGraphics.framework in Frameworks */,
 				AF890271181C9CD000BC1FD1 /* UIKit.framework in Frameworks */,
 				AF89026D181C9CD000BC1FD1 /* Foundation.framework in Frameworks */,
@@ -106,6 +141,7 @@
 		AF89026B181C9CD000BC1FD1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AF8902A7181C9D1200BC1FD1 /* AudioToolbox.framework */,
 				AF89026C181C9CD000BC1FD1 /* Foundation.framework */,
 				AF89026E181C9CD000BC1FD1 /* CoreGraphics.framework */,
 				AF890270181C9CD000BC1FD1 /* UIKit.framework */,
@@ -117,15 +153,21 @@
 		AF890272181C9CD000BC1FD1 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				AFAB8DCA181DC8AE00EE3F1E /* Algorithm.h */,
+				AFAB8DCB181DC8AE00EE3F1E /* Algorithm.m */,
 				AF89027B181C9CD000BC1FD1 /* AppDelegate.h */,
 				AF89027C181C9CD000BC1FD1 /* AppDelegate.m */,
 				AF89027E181C9CD000BC1FD1 /* Main_iPhone.storyboard */,
 				AF890281181C9CD000BC1FD1 /* Main_iPad.storyboard */,
+				AF8902AB181CA34B00BC1FD1 /* MainView.h */,
+				AF8902AC181CA35200BC1FD1 /* MainView.m */,
 				AF890284181C9CD000BC1FD1 /* MainViewController.h */,
 				AF890285181C9CD000BC1FD1 /* MainViewController.m */,
 				AF890287181C9CD000BC1FD1 /* FlipsideViewController.h */,
 				AF890288181C9CD000BC1FD1 /* FlipsideViewController.m */,
 				AF89028A181C9CD000BC1FD1 /* Images.xcassets */,
+				AF8902AA181C9D9700BC1FD1 /* Image Files */,
+				AF8902A9181C9D8800BC1FD1 /* Sound Files */,
 				AF890273181C9CD000BC1FD1 /* Supporting Files */,
 			);
 			path = Store;
@@ -158,6 +200,33 @@
 				AF89029A181C9CD000BC1FD1 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AF8902A9181C9D8800BC1FD1 /* Sound Files */ = {
+			isa = PBXGroup;
+			children = (
+				AFAB8DB0181DB73500EE3F1E /* new.wav */,
+			);
+			name = "Sound Files";
+			sourceTree = "<group>";
+		};
+		AF8902AA181C9D9700BC1FD1 /* Image Files */ = {
+			isa = PBXGroup;
+			children = (
+				AFAB8DB2181DBF0D00EE3F1E /* 0.bmp */,
+				AFAB8DB3181DBF0D00EE3F1E /* 1.bmp */,
+				AFAB8DB4181DBF0D00EE3F1E /* 2.bmp */,
+				AFAB8DB5181DBF0D00EE3F1E /* 3.bmp */,
+				AFAB8DB6181DBF0D00EE3F1E /* 4.bmp */,
+				AFAB8DB7181DBF0D00EE3F1E /* 5.bmp */,
+				AFAB8DB8181DBF0D00EE3F1E /* 6.bmp */,
+				AFAB8DB9181DBF0D00EE3F1E /* 7.bmp */,
+				AFAB8DBA181DBF0D00EE3F1E /* 8.bmp */,
+				AFAB8DBB181DBF0D00EE3F1E /* 9.bmp */,
+				AFAB8DBC181DBF0D00EE3F1E /* 10.bmp */,
+				AFAB8DBD181DBF0D00EE3F1E /* 11.bmp */,
+			);
+			name = "Image Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,9 +305,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFAB8DC4181DBF0D00EE3F1E /* 6.bmp in Resources */,
+				AFAB8DC9181DBF0D00EE3F1E /* 11.bmp in Resources */,
+				AFAB8DC3181DBF0D00EE3F1E /* 5.bmp in Resources */,
+				AFAB8DBE181DBF0D00EE3F1E /* 0.bmp in Resources */,
 				AF890283181C9CD000BC1FD1 /* Main_iPad.storyboard in Resources */,
+				AFAB8DC8181DBF0D00EE3F1E /* 10.bmp in Resources */,
 				AF89028B181C9CD000BC1FD1 /* Images.xcassets in Resources */,
 				AF890280181C9CD000BC1FD1 /* Main_iPhone.storyboard in Resources */,
+				AFAB8DC7181DBF0D00EE3F1E /* 9.bmp in Resources */,
+				AFAB8DC0181DBF0D00EE3F1E /* 2.bmp in Resources */,
+				AFAB8DB1181DB73500EE3F1E /* new.wav in Resources */,
+				AFAB8DC2181DBF0D00EE3F1E /* 4.bmp in Resources */,
+				AFAB8DC5181DBF0D00EE3F1E /* 7.bmp in Resources */,
+				AFAB8DC1181DBF0D00EE3F1E /* 3.bmp in Resources */,
+				AFAB8DBF181DBF0D00EE3F1E /* 1.bmp in Resources */,
+				AFAB8DC6181DBF0D00EE3F1E /* 8.bmp in Resources */,
 				AF890277181C9CD000BC1FD1 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,6 +340,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF8902AD181CA35200BC1FD1 /* MainView.m in Sources */,
+				AFAB8DCC181DC8AE00EE3F1E /* Algorithm.m in Sources */,
 				AF89027D181C9CD000BC1FD1 /* AppDelegate.m in Sources */,
 				AF890286181C9CD000BC1FD1 /* MainViewController.m in Sources */,
 				AF890289181C9CD000BC1FD1 /* FlipsideViewController.m in Sources */,
@@ -480,6 +564,7 @@
 				AF8902A3181C9CD000BC1FD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AF8902A4181C9CD000BC1FD1 /* Build configuration list for PBXNativeTarget "StoreTests" */ = {
 			isa = XCConfigurationList;
@@ -488,6 +573,7 @@
 				AF8902A6181C9CD000BC1FD1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

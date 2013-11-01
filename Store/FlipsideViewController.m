@@ -7,6 +7,7 @@
 //
 
 #import "FlipsideViewController.h"
+#import "MainViewController.h"
 
 @interface FlipsideViewController ()
 
@@ -16,7 +17,7 @@
 
 - (void)awakeFromNib
 {
-    self.preferredContentSize = CGSizeMake(320.0, 480.0);
+    self.preferredContentSize = CGSizeMake(320.0, 568.0);
     [super awakeFromNib];
 }
 
@@ -24,6 +25,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	// Load settings
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	self.soundSwitch.on = [defaults boolForKey:kSoundKey];
 }
 
 - (void)didReceiveMemoryWarning
@@ -36,7 +40,25 @@
 
 - (IBAction)done:(id)sender
 {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setBool:self.soundSwitch.on forKey:kSoundKey];
+	[defaults synchronize];
     [self.delegate flipsideViewControllerDidFinish:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSRange r = {0,0};
+    [self.textView scrollRangeToVisible:r];
+    [super viewWillAppear:animated];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        return YES;
+    } else {
+        return (interfaceOrientation !=	UIInterfaceOrientationPortraitUpsideDown);
+    }
 }
 
 @end
