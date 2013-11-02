@@ -94,7 +94,7 @@
     // Draw level
     CGRect levelRect = [self levelRect];
     if (CGRectIntersectsRect(levelRect, rect)) {
-        NSString *level = [NSString stringWithFormat:@"Level: %02d", self.sLevel];
+        NSString *level = [NSString stringWithFormat:@"Level: %02d", self.sLevel + 1];
         [level drawInRect:levelRect withAttributes:dictionaryWhite];
     }
 }

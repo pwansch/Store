@@ -40,7 +40,7 @@
 }
 
 - (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSString *level = [NSString stringWithFormat:@"Level: %02ld", (long)row];
+    NSString *level = [NSString stringWithFormat:@"Level %02ld", (long)row + 1];
     return level;
 }
 
