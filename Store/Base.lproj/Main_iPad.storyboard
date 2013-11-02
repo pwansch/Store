@@ -11,9 +11,53 @@
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="mX8-Ee-eGC" customClass="MainView">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="amf-2k-o9J">
+                                <rect key="frame" x="20" y="978" width="60" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="New">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="newGame:" destination="aVO-UE-KGo" eventType="touchUpInside" id="h36-QV-jLd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1zX-vc-M4H">
+                                <rect key="frame" x="88" y="978" width="60" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Undo">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="undo:" destination="aVO-UE-KGo" eventType="touchUpInside" id="5pY-GC-axH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="JPe-Wa-vjt">
+                                <rect key="frame" x="726" y="982" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="togglePopover:" destination="aVO-UE-KGo" eventType="touchUpInside" id="cbA-id-y5m"/>
+                                </connections>
+                            </button>
+                        </subviews>
                     </view>
                     <connections>
-                        <segue destination="FTa-do-hRx" kind="popover" identifier="showAlternate" id="pXF-iP-W5x">
+                        <outlet property="gameButton" destination="amf-2k-o9J" id="0Ce-Om-wcT"/>
+                        <outlet property="infoButton" destination="JPe-Wa-vjt" id="VIH-As-n9L"/>
+                        <outlet property="undoButton" destination="1zX-vc-M4H" id="Djl-UE-Cky"/>
+                        <segue destination="FTa-do-hRx" kind="popover" identifier="showAlternate" popoverAnchorView="JPe-Wa-vjt" id="pXF-iP-W5x">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
                     </connections>
@@ -26,14 +70,15 @@
         <scene sceneID="lym-h4-kxm">
             <objects>
                 <viewController id="FTa-do-hRx" customClass="FlipsideViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="yVM-ax-DI8">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="yVM-ax-DI8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="8Bx-U8-Xwy">
+                            <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="8Bx-U8-Xwy">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Title" id="UD1-FV-3cM">
+                                    <navigationItem title="Settings" id="UD1-FV-3cM">
                                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="8zt-ik-JXd">
                                             <connections>
                                                 <action selector="done:" destination="FTa-do-hRx" id="JoJ-z8-Ud1"/>
@@ -42,10 +87,41 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Sound Effects" lineBreakMode="tailTruncation" minimumFontSize="10" id="hNZ-5j-bIp">
+                                <rect key="frame" x="20" y="60" width="108" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="jax-Y9-MnH">
+                                <rect key="frame" x="251" y="55" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            </switch>
+                            <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="qPZ-H5-AHt">
+                                <rect key="frame" x="20" y="313" width="280" height="519"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <string key="text">Pegs is played by jumping a peg across any adjacent peg and placing it in an open space on the other side. Only horizontal and vertical jumps are allowed. A peg that has been jumped is automatically removed from the board. The object of the game is to jump all the pegs until only one peg remains. To jump a peg tap the peg you want to jump with and drag that peg over another peg.
+
+It is most challenging to end the game with the last peg in the center of the board, but you win as long as only one peg remains anywhere on the board.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <pickerView opaque="NO" contentMode="scaleToFill" id="2m0-Ji-O8K">
+                                <rect key="frame" x="0.0" y="89" width="320" height="216"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
                         </subviews>
-                        <color key="backgroundColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="levelPicker" destination="2m0-Ji-O8K" id="Kr6-jP-Cya"/>
+                        <outlet property="soundSwitch" destination="jax-Y9-MnH" id="Dfd-G5-bSx"/>
+                        <outlet property="textView" destination="qPZ-H5-AHt" id="9Rc-jy-MrM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9mE-fb-xOw" sceneMemberID="firstResponder"/>
             </objects>

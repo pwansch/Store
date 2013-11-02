@@ -11,11 +11,18 @@
 
 @interface MainViewController ()
 - (void)initializeGame;
+- (void)swipe:(UISwipeGestureRecognizerDirection)direction;
+- (void) vdMoveWorker:(BoardLocation *) ppointlWorker :(short) sDir;
 @end
 
 @implementation MainViewController
 
 @synthesize newId;
+@synthesize pushId;
+@synthesize illegalId;
+@synthesize wonId;
+@synthesize lostId;
+@synthesize ptlWorker;
 
 BoardLocation ptlWorkerInitial[NUMBER_OF_LEVELS] = {{12,5},{8,12},{16,12},{11,4},{16,7},
     {13,12},{9,12},{3,10},{3,5},{3,15},
@@ -1185,11 +1192,33 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 	// Do any additional setup after loading the view, typically from a nib.
     NSString *path = [[NSBundle mainBundle] pathForResource:@"new" ofType:@"wav"];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &newId);
-
+    path = [[NSBundle mainBundle] pathForResource:@"push" ofType:@"wav"];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &pushId);
+    path = [[NSBundle mainBundle] pathForResource:@"illegal" ofType:@"wav"];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &illegalId);
+    path = [[NSBundle mainBundle] pathForResource:@"won" ofType:@"wav"];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &wonId);
+    path = [[NSBundle mainBundle] pathForResource:@"lost" ofType:@"wav"];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &lostId);
+    
     // Initialize settings
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.m_sound = [defaults boolForKey:kSoundKey];
     self.sLevel = [defaults integerForKey:kLevelKey];
+    
+    // Initialize gesture recognizers
+    UISwipeGestureRecognizer *verticalUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeUp:)];
+    verticalUp.direction = UISwipeGestureRecognizerDirectionUp;
+    [self.view addGestureRecognizer:verticalUp];
+    UISwipeGestureRecognizer *verticalDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeDown:)];
+    verticalDown.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer:verticalDown];
+    UISwipeGestureRecognizer *horizontalLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeLeft:)];
+    horizontalLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:horizontalLeft];
+    UISwipeGestureRecognizer *horizontalRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeRight:)];
+    horizontalRight.direction = UISwipeGestureRecognizerDirectionRight;
+   [self.view addGestureRecognizer:horizontalRight];
     
     // Initialize variables
     [self initializeGame];
@@ -1291,9 +1320,10 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     
 	// Initialize the game
     self.fGameOver = NO;
+    mainView.ulScore = 0;
+    self.ptlWorker = ptlWorkerInitial[self.sLevel];
 
 	// initialize grid structure
-    self.sLevel = 34;
     Board boardIni;
 	for(short x = 0; x < COLUMNSX; x++)
 		for(short y = 0; y < LINESY; y++)
@@ -1303,6 +1333,186 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     
 	// Draw the view
 	[mainView setNeedsDisplay];
+}
+
+- (IBAction)undo:(id)sender
+{
+}
+
+- (void)reportVerticalSwipeUp:(UIGestureRecognizer *)recognizer
+{
+    [self swipe:UISwipeGestureRecognizerDirectionUp];
+}
+
+- (void)reportVerticalSwipeDown:(UIGestureRecognizer *)recognizer
+{
+    [self swipe:UISwipeGestureRecognizerDirectionDown];
+}
+
+- (void)reportHorizontalSwipeLeft:(UIGestureRecognizer *)recognizer
+{
+    [self swipe:UISwipeGestureRecognizerDirectionLeft];
+}
+
+- (void)reportHorizontalSwipeRight:(UIGestureRecognizer *)recognizer
+{
+    [self swipe:UISwipeGestureRecognizerDirectionRight];
+}
+
+- (void)swipe:(UISwipeGestureRecognizerDirection)direction
+{
+	if(!self.fGameOver)
+	{
+        MainView *mainView = (MainView *)self.view;
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            switch (direction)
+            {
+                case UISwipeGestureRecognizerDirectionUp:
+                    [self vdMoveWorker:&ptlWorker :1];
+                    break;
+                case UISwipeGestureRecognizerDirectionDown:
+                    [self vdMoveWorker:&ptlWorker :3];
+                    break;
+                case UISwipeGestureRecognizerDirectionLeft:
+                    [self vdMoveWorker:&ptlWorker :0];
+                    break;
+                case UISwipeGestureRecognizerDirectionRight:
+                    [self vdMoveWorker:&ptlWorker :2];
+                    break;
+            }
+        } else {
+            switch (direction)
+            {
+                case UISwipeGestureRecognizerDirectionUp:
+                    [self vdMoveWorker:&ptlWorker :0];
+                    break;
+                case UISwipeGestureRecognizerDirectionDown:
+                    [self vdMoveWorker:&ptlWorker :2];
+                    break;
+                case UISwipeGestureRecognizerDirectionLeft:
+                    [self vdMoveWorker:&ptlWorker :3];
+                    break;
+                case UISwipeGestureRecognizerDirectionRight:
+                    [self vdMoveWorker:&ptlWorker :1];
+                    break;
+            }
+        }
+        
+		// ist das Spiel verloren
+		if(vdLose(mainView.board))
+		{
+			[self playSound:lostId];
+            self.fGameOver = YES;
+		}
+        
+		// ist das Spiel gewonnen
+		if(!self.fGameOver && vdWin(mainView.board))
+		{
+			[self playSound:wonId];
+            // das Spiel ist gewonnen
+            self.fGameOver = YES;
+		}
+	}
+}
+
+- (void) vdMoveWorker:(BoardLocation *) ppointlWorker :(short) sDir
+{
+    BoardLocation ptlIni, ptlNext;
+    BOOL fUnder = NO;
+    MainView *mainView = (MainView *)self.view;
+    PBoard pBoard = [mainView getBoardPointer];
+    
+    // Save last board for undo
+    self.boardUndo = mainView.board;
+    self.ptlWorkerUndo = self.ptlWorker;
+    
+    // zuerst einmal den bagger drehen
+    ptlIni = *ppointlWorker;
+    ptlNext = *ppointlWorker;
+    pBoard->location[ppointlWorker->x][ppointlWorker->y] = sDir + 8;
+    [mainView invalidateBoard:ppointlWorker->x :ppointlWorker->y];
+    if(mainView.board.location[ppointlWorker->x][ppointlWorker->y] > 11)
+        fUnder = YES;
+    pBoard->location[ppointlWorker->x][ppointlWorker->y] = sDir + (fUnder ? 13 : 8);
+    
+    // kann ich den worker in sDir moven
+    switch (sDir)
+    {
+        case 0:
+            if(!vdBoardOK(mainView.board, ppointlWorker->x - 1, ppointlWorker->y, ppointlWorker->x - 2, ppointlWorker->y))
+            {
+                [self playSound:illegalId];
+                return;
+            }
+            pBoard->location[ppointlWorker->x][ppointlWorker->y] = (fUnder ? 6 : 4);
+            ppointlWorker->x--;
+            ptlNext.x -= 2;
+            break;
+        case 1:
+            if(!vdBoardOK(mainView.board, ppointlWorker->x, ppointlWorker->y + 1, ppointlWorker->x, ppointlWorker->y + 2))
+            {
+                [self playSound:illegalId];
+                return;
+            }
+            pBoard->location[ppointlWorker->x][ppointlWorker->y] = (fUnder ? 6 : 4);
+            ppointlWorker->y++;
+            ptlNext.y += 2;
+            break;
+        case 2:
+            if(!vdBoardOK(mainView.board, ppointlWorker->x + 1, ppointlWorker->y, ppointlWorker->x + 2, ppointlWorker->y))
+            {
+                [self playSound:illegalId];
+                return;
+            }
+            pBoard->location[ppointlWorker->x][ppointlWorker->y] = (fUnder ? 6 : 4);
+            ppointlWorker->x++;
+            ptlNext.x += 2;
+            break;
+        case 3:
+            if(!vdBoardOK(mainView.board, ppointlWorker->x, ppointlWorker->y - 1, ppointlWorker->x, ppointlWorker->y - 2))
+            {
+                [self playSound:illegalId];
+                return;
+            }
+            pBoard->location[ppointlWorker->x][ppointlWorker->y] = (fUnder ? 6 : 4);
+            ppointlWorker->y--;
+            ptlNext.y -= 2;
+            break;
+    }
+    
+    switch (mainView.board.location[ppointlWorker->x][ppointlWorker->y])
+    {
+        case 6:
+            pBoard->location[ppointlWorker->x][ppointlWorker->y] = sDir + 13;
+            break;
+        case 4:
+            pBoard->location[ppointlWorker->x][ppointlWorker->y] = sDir + 8;
+            break;
+        case 7:
+            [self playSound:pushId];
+            if(mainView.board.location[ptlNext.x][ptlNext.y] == 6)
+                pBoard->location[ptlNext.x][ptlNext.y] = 12;
+            else
+                pBoard->location[ptlNext.x][ptlNext.y] = 7;
+            pBoard->location[ppointlWorker->x][ppointlWorker->y] = sDir + 8;
+            [mainView invalidateBoard:ptlNext.x :ptlNext.y];
+            break;
+        case 12:
+            [self playSound:pushId];
+            if(mainView.board.location[ptlNext.x][ptlNext.y] == 6)
+                pBoard->location[ptlNext.x][ptlNext.y] = 12;
+            else
+                pBoard->location[ptlNext.x][ptlNext.y] = 7;
+            pBoard->location[ppointlWorker->x][ppointlWorker->y] = sDir + 13;
+            break;
+    } 
+    
+    // Draw the moves and update the score
+    [mainView invalidateBoard:ppointlWorker->x :ppointlWorker->y];
+    [mainView invalidateBoard:ptlIni.x :ptlIni.y];
+    mainView.ulScore++;
+    [mainView invalidateScore];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

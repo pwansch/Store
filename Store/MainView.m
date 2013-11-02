@@ -16,6 +16,8 @@
 
 @implementation MainView
 
+@synthesize board;
+
 - (id)initWithCoder:(NSCoder *)coder {
 	if ((self = [super initWithCoder:coder]))
 	{
@@ -26,7 +28,7 @@
         self.hbmBoard = [[NSMutableArray alloc] initWithCapacity:12];
         self.hbmBoardRotated = [[NSMutableArray alloc] initWithCapacity:12];
         for (short i = 0; i < 12; i++) {
-            UIImage *boardImage = [UIImage imageNamed:[NSString stringWithFormat:@"%i.BMP", i]];
+            UIImage *boardImage = [UIImage imageNamed:[NSString stringWithFormat:@"%i.bmp", i]];
             [self.hbmBoard addObject:boardImage];
             UIImage *rotatedImage = [[UIImage alloc] initWithCGImage: boardImage.CGImage
                                                                scale: 1.0
@@ -177,12 +179,32 @@
     return boardRect;
 }
 
+- (void)invalidateBoard:(short)x :(short)y
+{
+    [self setNeedsDisplayInRect:[self boardRect:x :y]];
+}
+
+- (void)invalidateScore
+{
+    [self setNeedsDisplayInRect:[self scoreRect]];
+}
+
+- (void)invalidateLevel
+{
+    [self setNeedsDisplayInRect:[self levelRect]];
+}
+
 - (CGRect)statusBarFrameViewRect
 {
     CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
     CGRect statusBarWindowRect = [self.window convertRect:statusBarFrame fromWindow: nil];
     CGRect statusBarViewRect = [self convertRect:statusBarWindowRect fromView: nil];
     return statusBarViewRect;
+}
+
+- (PBoard)getBoardPointer
+{
+    return &board;
 }
 
 @end

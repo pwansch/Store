@@ -27,8 +27,34 @@
                                     <segue destination="kIf-nA-PKG" kind="modal" identifier="showAlternate" modalTransitionStyle="flipHorizontal" id="ZEO-Qe-X3j"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lLU-td-5QV">
+                                <rect key="frame" x="25" y="522" width="60" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <state key="normal" title="New">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="newGame:" destination="rQl-PL-IFJ" eventType="touchUpInside" id="tCM-xr-kRE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="maF-jG-2c5">
+                                <rect key="frame" x="88" y="522" width="60" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <state key="normal" title="Undo">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="undo:" destination="rQl-PL-IFJ" eventType="touchUpInside" id="46v-fC-T91"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="gameButton" destination="lLU-td-5QV" id="cCe-Ld-6cc"/>
+                        <outlet property="undoButton" destination="maF-jG-2c5" id="Y6B-Yn-zf3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h4L-l5-tyG" sceneMemberID="firstResponder"/>
             </objects>
@@ -42,10 +68,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="hED-2o-FLw">
+                            <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="hED-2o-FLw">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Title" id="caU-JJ-JLf">
+                                    <navigationItem title="Settings" id="caU-JJ-JLf">
                                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="WuG-Ps-ZbD">
                                             <connections>
                                                 <action selector="done:" destination="kIf-nA-PKG" id="j28-pm-V55"/>
@@ -54,9 +81,42 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Sound Effects" lineBreakMode="tailTruncation" minimumFontSize="10" id="dOD-bA-Bl9">
+                                <rect key="frame" x="20" y="60" width="150" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="p7r-Cj-asl">
+                                <rect key="frame" x="251" y="55" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            </switch>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="44y-wD-Gw8">
+                                <rect key="frame" x="20" y="259" width="280" height="289"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <string key="text">Pegs is played by jumping a peg across any adjacent peg and placing it in an open space on the other side. Only horizontal and vertical jumps are allowed. A peg that has been jumped is automatically removed from the board. The object of the game is to jump all the pegs until only one peg remains. To jump a peg tap the peg you want to jump with and drag that peg over another peg.
+
+It is most challenging to end the game with the last peg in the center of the board, but you win as long as only one peg remains anywhere on the board.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <pickerView opaque="NO" contentMode="scaleToFill" id="aGS-hN-MdW">
+                                <rect key="frame" x="0.0" y="89" width="320" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
                         </subviews>
-                        <color key="backgroundColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="levelPicker" destination="aGS-hN-MdW" id="8ln-7M-7j6"/>
+                        <outlet property="soundSwitch" destination="p7r-Cj-asl" id="sXa-bP-LJw"/>
+                        <outlet property="textView" destination="44y-wD-Gw8" id="ZKn-0i-CEL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xlJ-1o-FvB" sceneMemberID="firstResponder"/>
             </objects>

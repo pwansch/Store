@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF14C0AD18249E9700FFFB91 /* illegal.wav in Resources */ = {isa = PBXBuildFile; fileRef = AF14C0AA18249E9700FFFB91 /* illegal.wav */; };
+		AF14C0AE18249E9700FFFB91 /* lost.wav in Resources */ = {isa = PBXBuildFile; fileRef = AF14C0AB18249E9700FFFB91 /* lost.wav */; };
+		AF14C0AF18249E9700FFFB91 /* won.wav in Resources */ = {isa = PBXBuildFile; fileRef = AF14C0AC18249E9700FFFB91 /* won.wav */; };
+		AF14C0B11824A13A00FFFB91 /* push.wav in Resources */ = {isa = PBXBuildFile; fileRef = AF14C0B01824A13A00FFFB91 /* push.wav */; };
 		AF89026D181C9CD000BC1FD1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF89026C181C9CD000BC1FD1 /* Foundation.framework */; };
 		AF89026F181C9CD000BC1FD1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF89026E181C9CD000BC1FD1 /* CoreGraphics.framework */; };
 		AF890271181C9CD000BC1FD1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF890270181C9CD000BC1FD1 /* UIKit.framework */; };
@@ -52,6 +56,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AF14C0AA18249E9700FFFB91 /* illegal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = illegal.wav; sourceTree = "<group>"; };
+		AF14C0AB18249E9700FFFB91 /* lost.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lost.wav; sourceTree = "<group>"; };
+		AF14C0AC18249E9700FFFB91 /* won.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = won.wav; sourceTree = "<group>"; };
+		AF14C0B01824A13A00FFFB91 /* push.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = push.wav; sourceTree = "<group>"; };
 		AF890269181C9CD000BC1FD1 /* Store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Store.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF89026C181C9CD000BC1FD1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AF89026E181C9CD000BC1FD1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -205,6 +213,10 @@
 		AF8902A9181C9D8800BC1FD1 /* Sound Files */ = {
 			isa = PBXGroup;
 			children = (
+				AF14C0B01824A13A00FFFB91 /* push.wav */,
+				AF14C0AA18249E9700FFFB91 /* illegal.wav */,
+				AF14C0AB18249E9700FFFB91 /* lost.wav */,
+				AF14C0AC18249E9700FFFB91 /* won.wav */,
 				AFAB8DB0181DB73500EE3F1E /* new.wav */,
 			);
 			name = "Sound Files";
@@ -314,12 +326,16 @@
 				AF89028B181C9CD000BC1FD1 /* Images.xcassets in Resources */,
 				AF890280181C9CD000BC1FD1 /* Main_iPhone.storyboard in Resources */,
 				AFAB8DC7181DBF0D00EE3F1E /* 9.bmp in Resources */,
+				AF14C0AD18249E9700FFFB91 /* illegal.wav in Resources */,
+				AF14C0AE18249E9700FFFB91 /* lost.wav in Resources */,
+				AF14C0AF18249E9700FFFB91 /* won.wav in Resources */,
 				AFAB8DC0181DBF0D00EE3F1E /* 2.bmp in Resources */,
 				AFAB8DB1181DB73500EE3F1E /* new.wav in Resources */,
 				AFAB8DC2181DBF0D00EE3F1E /* 4.bmp in Resources */,
 				AFAB8DC5181DBF0D00EE3F1E /* 7.bmp in Resources */,
 				AFAB8DC1181DBF0D00EE3F1E /* 3.bmp in Resources */,
 				AFAB8DBF181DBF0D00EE3F1E /* 1.bmp in Resources */,
+				AF14C0B11824A13A00FFFB91 /* push.wav in Resources */,
 				AFAB8DC6181DBF0D00EE3F1E /* 8.bmp in Resources */,
 				AF890277181C9CD000BC1FD1 /* InfoPlist.strings in Resources */,
 			);

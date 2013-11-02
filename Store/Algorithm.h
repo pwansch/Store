@@ -24,4 +24,6 @@ typedef struct {
 } BoardLocation;
 
 // Function prototypes
-
+BOOL vdBoardOK(Board board, short x, short y, short xTo, short yTo);
+BOOL vdWin(Board board);
+BOOL vdLose(Board board);

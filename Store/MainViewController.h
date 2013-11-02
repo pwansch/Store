@@ -8,6 +8,7 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 #import "FlipsideViewController.h"
+#import "Algorithm.h"
 
 #define kVersionKey			@"version"
 #define kSoundKey			@"sound"
@@ -21,9 +22,16 @@
 @property (strong, nonatomic) IBOutlet UIButton *undoButton;
 @property (strong, nonatomic) IBOutlet UIButton *infoButton;
 @property (assign, nonatomic) SystemSoundID newId;
+@property (assign, nonatomic) SystemSoundID pushId;
+@property (assign, nonatomic) SystemSoundID illegalId;
+@property (assign, nonatomic) SystemSoundID wonId;
+@property (assign, nonatomic) SystemSoundID lostId;
 @property (assign, nonatomic) BOOL m_sound;
 @property (assign, nonatomic) short sLevel;
 @property (assign, nonatomic) BOOL fGameOver;
+@property (assign, nonatomic) Board boardUndo;
+@property (assign, nonatomic) BoardLocation ptlWorker;
+@property (assign, nonatomic) BoardLocation ptlWorkerUndo;
 
 - (IBAction)newGame:(id)sender;
 - (void)playSound:(SystemSoundID)soundID;
