@@ -20,6 +20,7 @@
 @synthesize newId;
 @synthesize pushId;
 @synthesize illegalId;
+@synthesize undoId;
 @synthesize wonId;
 @synthesize lostId;
 @synthesize ptlWorker;
@@ -1196,15 +1197,19 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &pushId);
     path = [[NSBundle mainBundle] pathForResource:@"illegal" ofType:@"wav"];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &illegalId);
+    path = [[NSBundle mainBundle] pathForResource:@"undo" ofType:@"wav"];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &undoId);
     path = [[NSBundle mainBundle] pathForResource:@"won" ofType:@"wav"];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &wonId);
     path = [[NSBundle mainBundle] pathForResource:@"lost" ofType:@"wav"];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &lostId);
     
     // Initialize settings
+    MainView *mainView = (MainView *)self.view;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.m_sound = [defaults boolForKey:kSoundKey];
-    self.sLevel = [defaults integerForKey:kLevelKey];
+    mainView.sLevel = [defaults integerForKey:kLevelKey];
+    self.fNextLevel = NO;
     
     // Initialize gesture recognizers
     UISwipeGestureRecognizer *verticalUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeUp:)];
@@ -1243,9 +1248,14 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller
 {
 	// Save the settings
+    MainView *mainView = (MainView *)self.view;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.m_sound = [defaults boolForKey:kSoundKey];
-    self.sLevel = [defaults integerForKey:kLevelKey];
+    short sLevel = [defaults integerForKey:kLevelKey];
+    if (mainView.sLevel != sLevel) {
+        mainView.sLevel = sLevel;
+        [self newGame:controller];
+    }
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -1302,6 +1312,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     if (buttonIndex != [actionSheet cancelButtonIndex]) {
         [self initializeGame];
     }
+    self.fNextLevel = NO;
 }
 
 - (void) playSound:(SystemSoundID)soundID
@@ -1313,23 +1324,30 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 
 - (void)initializeGame
 {
-    MainView *mainView = (MainView *)self.view;
-    
 	// Play the new game sound
 	[self playSound:newId];
     
 	// Initialize the game
+    MainView *mainView = (MainView *)self.view;
     self.fGameOver = NO;
     mainView.ulScore = 0;
-    self.ptlWorker = ptlWorkerInitial[self.sLevel];
+    if (self.fNextLevel) {
+        mainView.sLevel++;
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setInteger:mainView.sLevel forKey:kLevelKey];
+        [defaults synchronize];
+        self.fNextLevel = NO;
+    }
+    self.ptlWorker = ptlWorkerInitial[mainView.sLevel];
+    self.undoButton.hidden = NO;
 
 	// initialize grid structure
     Board boardIni;
 	for(short x = 0; x < COLUMNSX; x++)
 		for(short y = 0; y < LINESY; y++)
-			boardIni.location[x][y] = BoardLevels[self.sLevel][x][y];
+			boardIni.location[x][y] = BoardLevels[mainView.sLevel][x][y];
     mainView.board = boardIni;
-    mainView.text = [[NSString alloc] initWithFormat: @""];
+    mainView.text = [[NSString alloc] initWithFormat: @"Swipe to move the forklift."];
     
 	// Draw the view
 	[mainView setNeedsDisplay];
@@ -1337,6 +1355,19 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 
 - (IBAction)undo:(id)sender
 {
+    if(!self.fGameOver) {
+        MainView *mainView = (MainView *)self.view;
+        
+        // undo the last move
+        [self playSound:undoId];
+        self.ptlWorker = self.ptlWorkerUndo;
+        mainView.board = self.boardUndo;
+        [mainView setNeedsDisplay];
+    }
+    else {
+        // Unable to show undo
+        [self playSound:illegalId];
+    }
 }
 
 - (void)reportVerticalSwipeUp:(UIGestureRecognizer *)recognizer
@@ -1399,11 +1430,22 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
             }
         }
         
+        // Remove text
+        if (mainView.text != nil) {
+            mainView.text = nil;
+            [mainView invalidateText];
+        }
+        
 		// ist das Spiel verloren
 		if(vdLose(mainView.board))
 		{
 			[self playSound:lostId];
             self.fGameOver = YES;
+            self.undoButton.hidden = YES;
+            
+            // Ask to try again
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"One box has been moved into a corner, so you can no longer move it to its destination. Do you want to try again?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
+           [actionSheet showInView:self.view];
 		}
         
 		// ist das Spiel gewonnen
@@ -1412,6 +1454,16 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 			[self playSound:wonId];
             // das Spiel ist gewonnen
             self.fGameOver = YES;
+            self.undoButton.hidden = YES;
+            
+            // Ask to continue to the next level
+            if(mainView.sLevel < (NUMBER_OF_LEVELS - 1))
+            {
+                self.fNextLevel = YES;
+                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Congratulations. Ready to try the next level?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
+                [actionSheet showInView:self.view];
+            }
+            
 		}
 	}
 }
@@ -1430,11 +1482,10 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     // zuerst einmal den bagger drehen
     ptlIni = *ppointlWorker;
     ptlNext = *ppointlWorker;
-    pBoard->location[ppointlWorker->x][ppointlWorker->y] = sDir + 8;
-    [mainView invalidateBoard:ppointlWorker->x :ppointlWorker->y];
     if(mainView.board.location[ppointlWorker->x][ppointlWorker->y] > 11)
         fUnder = YES;
     pBoard->location[ppointlWorker->x][ppointlWorker->y] = sDir + (fUnder ? 13 : 8);
+    [mainView invalidateBoard:ptlNext.x :ptlNext.y];
     
     // kann ich den worker in sDir moven
     switch (sDir)
@@ -1496,7 +1547,6 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
             else
                 pBoard->location[ptlNext.x][ptlNext.y] = 7;
             pBoard->location[ppointlWorker->x][ppointlWorker->y] = sDir + 8;
-            [mainView invalidateBoard:ptlNext.x :ptlNext.y];
             break;
         case 12:
             [self playSound:pushId];
@@ -1509,6 +1559,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     } 
     
     // Draw the moves and update the score
+    [mainView invalidateBoard:ptlNext.x :ptlNext.y];
     [mainView invalidateBoard:ppointlWorker->x :ppointlWorker->y];
     [mainView invalidateBoard:ptlIni.x :ptlIni.y];
     mainView.ulScore++;

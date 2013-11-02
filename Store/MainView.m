@@ -87,14 +87,14 @@
     // Draw score
     CGRect scoreRect = [self scoreRect];
     if (CGRectIntersectsRect(scoreRect, rect)) {
-        NSString *score = [NSString stringWithFormat:@"Score: 000000"];
+        NSString *score = [NSString stringWithFormat:@"Score: %06ld", self.ulScore];
         [score drawInRect:scoreRect withAttributes:dictionaryWhite];
     }
     
     // Draw level
     CGRect levelRect = [self levelRect];
     if (CGRectIntersectsRect(levelRect, rect)) {
-        NSString *level = [NSString stringWithFormat:@"Level: 00"];
+        NSString *level = [NSString stringWithFormat:@"Level: %02d", self.sLevel];
         [level drawInRect:levelRect withAttributes:dictionaryWhite];
     }
 }
@@ -192,6 +192,10 @@
 - (void)invalidateLevel
 {
     [self setNeedsDisplayInRect:[self levelRect]];
+}
+
+- (void)invalidateText
+{
 }
 
 - (CGRect)statusBarFrameViewRect

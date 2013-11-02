@@ -11,6 +11,7 @@
 		AF14C0AE18249E9700FFFB91 /* lost.wav in Resources */ = {isa = PBXBuildFile; fileRef = AF14C0AB18249E9700FFFB91 /* lost.wav */; };
 		AF14C0AF18249E9700FFFB91 /* won.wav in Resources */ = {isa = PBXBuildFile; fileRef = AF14C0AC18249E9700FFFB91 /* won.wav */; };
 		AF14C0B11824A13A00FFFB91 /* push.wav in Resources */ = {isa = PBXBuildFile; fileRef = AF14C0B01824A13A00FFFB91 /* push.wav */; };
+		AF60D5AA18258D94003E2168 /* undo.wav in Resources */ = {isa = PBXBuildFile; fileRef = AF60D5A918258D94003E2168 /* undo.wav */; };
 		AF89026D181C9CD000BC1FD1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF89026C181C9CD000BC1FD1 /* Foundation.framework */; };
 		AF89026F181C9CD000BC1FD1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF89026E181C9CD000BC1FD1 /* CoreGraphics.framework */; };
 		AF890271181C9CD000BC1FD1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF890270181C9CD000BC1FD1 /* UIKit.framework */; };
@@ -60,6 +61,7 @@
 		AF14C0AB18249E9700FFFB91 /* lost.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lost.wav; sourceTree = "<group>"; };
 		AF14C0AC18249E9700FFFB91 /* won.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = won.wav; sourceTree = "<group>"; };
 		AF14C0B01824A13A00FFFB91 /* push.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = push.wav; sourceTree = "<group>"; };
+		AF60D5A918258D94003E2168 /* undo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = undo.wav; sourceTree = "<group>"; };
 		AF890269181C9CD000BC1FD1 /* Store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Store.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF89026C181C9CD000BC1FD1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AF89026E181C9CD000BC1FD1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -213,6 +215,7 @@
 		AF8902A9181C9D8800BC1FD1 /* Sound Files */ = {
 			isa = PBXGroup;
 			children = (
+				AF60D5A918258D94003E2168 /* undo.wav */,
 				AF14C0B01824A13A00FFFB91 /* push.wav */,
 				AF14C0AA18249E9700FFFB91 /* illegal.wav */,
 				AF14C0AB18249E9700FFFB91 /* lost.wav */,
@@ -319,6 +322,7 @@
 			files = (
 				AFAB8DC4181DBF0D00EE3F1E /* 6.bmp in Resources */,
 				AFAB8DC9181DBF0D00EE3F1E /* 11.bmp in Resources */,
+				AF60D5AA18258D94003E2168 /* undo.wav in Resources */,
 				AFAB8DC3181DBF0D00EE3F1E /* 5.bmp in Resources */,
 				AFAB8DBE181DBF0D00EE3F1E /* 0.bmp in Resources */,
 				AF890283181C9CD000BC1FD1 /* Main_iPad.storyboard in Resources */,

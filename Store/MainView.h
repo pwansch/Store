@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSMutableArray *hbmBoardRotated;
 @property (assign, nonatomic) Board board;
 @property (assign, nonatomic) unsigned long ulScore;
+@property (assign, nonatomic) short sLevel;
 
 - (CGRect)scoreRect;
 - (CGRect)levelRect;
@@ -29,6 +30,7 @@
 - (void)invalidateBoard:(short)x :(short)y;
 - (void)invalidateScore;
 - (void)invalidateLevel;
+- (void)invalidateText;
 - (PBoard)getBoardPointer;
 
 @end

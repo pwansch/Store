@@ -8,6 +8,7 @@
 
 #import "FlipsideViewController.h"
 #import "MainViewController.h"
+#import "Algorithm.h"
 
 @interface FlipsideViewController ()
 
@@ -30,6 +31,19 @@
 	self.soundSwitch.on = [defaults boolForKey:kSoundKey];
 }
 
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return NUMBER_OF_LEVELS;
+}
+
+- (NSString *) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    NSString *level = [NSString stringWithFormat:@"Level: %02ld", (long)row];
+    return level;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -42,6 +56,8 @@
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setBool:self.soundSwitch.on forKey:kSoundKey];
+    NSInteger row = [self.levelPicker selectedRowInComponent:0];
+    [defaults setInteger:row forKey:kLevelKey];
 	[defaults synchronize];
     [self.delegate flipsideViewControllerDidFinish:self];
 }
