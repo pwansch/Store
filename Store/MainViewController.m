@@ -11,7 +11,7 @@
 
 @interface MainViewController ()
 - (void)initializeGame;
-- (void)swipe:(UISwipeGestureRecognizerDirection)direction;
+- (void)swipe:(UISwipeGestureRecognizerDirection)direction :(NSUInteger)number;
 - (void) vdMoveWorker:(BoardLocation *) ppointlWorker :(short) sDir;
 @end
 
@@ -41,9 +41,9 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     {{5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
         {5,5,5,5,5,0,0,0,0,5,5,5,5,5,5,5,5,5},
         {5,5,5,5,5,1,4,4,1,5,5,5,5,5,5,5,5,5},
-        {5,5,5,5,5,1,7,4,2,3,3,5,5,5,5,5,5,5},
+        {5,5,5,5,5,1,7,4,2,3,0,5,5,5,5,5,5,5},
         {5,5,5,5,5,1,4,4,4,4,1,5,5,5,5,5,5,5},
-        {5,5,5,3,3,3,4,3,3,4,3,3,3,3,5,5,5,5},
+        {5,5,5,0,3,3,4,3,3,4,3,3,3,0,5,5,5,5},
         {5,5,5,1,4,4,7,4,4,7,4,7,4,1,5,5,5,5},
         {5,5,5,1,4,0,4,0,0,4,4,4,4,1,5,5,5,5},
         {5,5,5,1,4,1,4,2,2,7,7,4,4,1,5,5,5,5},
@@ -108,7 +108,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     
     /* 4 */
     {{5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
-        {5,5,0,3,3,3,3,0,3,3,3,3,3,3,5,5,5,5},
+        {5,5,0,3,3,3,3,0,3,3,3,3,3,0,5,5,5,5},
         {5,5,1,4,4,4,4,2,4,4,4,4,4,1,5,5,5,5},
         {5,5,1,4,4,4,4,4,4,7,4,7,4,1,5,5,5,5},
         {5,5,1,4,7,4,4,0,7,7,7,7,4,1,5,5,5,5},
@@ -144,7 +144,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
         {5,5,5,5,1,4,4,7,7,4,4,4,4,4,1,5,5,5},
         {5,5,0,3,2,7,4,4,4,7,0,4,3,4,1,5,5,5},
         {5,5,1,4,4,4,7,4,7,4,1,4,7,4,1,5,5,5},
-        {5,5,1,4,2,7,4,7,7,4,2,4,0,0,2,5,5,5},
+        {5,5,1,4,0,7,4,7,7,4,2,4,0,0,2,5,5,5},
         {5,5,1,4,2,4,4,4,4,7,4,4,2,1,5,5,5,5},
         {5,5,1,4,4,4,0,8,0,0,4,7,4,1,5,5,5,5},
         {5,5,2,3,3,3,2,3,2,1,4,4,4,1,5,5,5,5},
@@ -180,7 +180,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
         {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
         {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
         {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
-        {5,5,5,0,3,3,3,3,3,3,3,3,0,5,5,5,5,5},
+        {5,5,5,0,3,3,3,3,3,0,3,3,0,5,5,5,5,5},
         {5,5,5,1,4,4,4,4,4,1,4,4,2,0,5,5,5,5},
         {5,5,5,1,4,7,4,7,7,2,4,4,4,1,5,5,5,5},
         {5,5,5,2,0,7,4,4,4,4,7,4,3,1,5,5,5,5},
@@ -1212,18 +1212,38 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     self.fNextLevel = NO;
     
     // Initialize gesture recognizers
-    UISwipeGestureRecognizer *verticalUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeUp:)];
-    verticalUp.direction = UISwipeGestureRecognizerDirectionUp;
-    [self.view addGestureRecognizer:verticalUp];
-    UISwipeGestureRecognizer *verticalDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeDown:)];
-    verticalDown.direction = UISwipeGestureRecognizerDirectionDown;
-    [self.view addGestureRecognizer:verticalDown];
-    UISwipeGestureRecognizer *horizontalLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeLeft:)];
-    horizontalLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:horizontalLeft];
-    UISwipeGestureRecognizer *horizontalRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeRight:)];
-    horizontalRight.direction = UISwipeGestureRecognizerDirectionRight;
-   [self.view addGestureRecognizer:horizontalRight];
+    UISwipeGestureRecognizer *verticalUp1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeUp:)];
+    verticalUp1.direction = UISwipeGestureRecognizerDirectionUp;
+    verticalUp1.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:verticalUp1];
+    UISwipeGestureRecognizer *verticalDown1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeDown:)];
+    verticalDown1.direction = UISwipeGestureRecognizerDirectionDown;
+    verticalDown1.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:verticalDown1];
+    UISwipeGestureRecognizer *horizontalLeft1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeLeft:)];
+    horizontalLeft1.direction = UISwipeGestureRecognizerDirectionLeft;
+    horizontalLeft1.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:horizontalLeft1];
+    UISwipeGestureRecognizer *horizontalRight1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeRight:)];
+    horizontalRight1.direction = UISwipeGestureRecognizerDirectionRight;
+    horizontalRight1.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:horizontalRight1];
+    UISwipeGestureRecognizer *verticalUp2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeUp:)];
+    verticalUp2.direction = UISwipeGestureRecognizerDirectionUp;
+    verticalUp2.numberOfTouchesRequired = 2;
+    [self.view addGestureRecognizer:verticalUp2];
+    UISwipeGestureRecognizer *verticalDown2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeDown:)];
+    verticalDown2.direction = UISwipeGestureRecognizerDirectionDown;
+    verticalDown2.numberOfTouchesRequired = 2;
+    [self.view addGestureRecognizer:verticalDown2];
+    UISwipeGestureRecognizer *horizontalLeft2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeLeft:)];
+    horizontalLeft2.direction = UISwipeGestureRecognizerDirectionLeft;
+    horizontalLeft2.numberOfTouchesRequired = 2;
+    [self.view addGestureRecognizer:horizontalLeft2];
+    UISwipeGestureRecognizer *horizontalRight2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeRight:)];
+    horizontalRight2.direction = UISwipeGestureRecognizerDirectionRight;
+    horizontalRight2.numberOfTouchesRequired = 2;
+    [self.view addGestureRecognizer:horizontalRight2];
     
     // Initialize variables
     [self initializeGame];
@@ -1372,100 +1392,102 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 
 - (void)reportVerticalSwipeUp:(UIGestureRecognizer *)recognizer
 {
-    [self swipe:UISwipeGestureRecognizerDirectionUp];
+    [self swipe:UISwipeGestureRecognizerDirectionUp :recognizer.numberOfTouches];
 }
 
 - (void)reportVerticalSwipeDown:(UIGestureRecognizer *)recognizer
 {
-    [self swipe:UISwipeGestureRecognizerDirectionDown];
+    [self swipe:UISwipeGestureRecognizerDirectionDown :recognizer.numberOfTouches];
 }
 
 - (void)reportHorizontalSwipeLeft:(UIGestureRecognizer *)recognizer
 {
-    [self swipe:UISwipeGestureRecognizerDirectionLeft];
+    [self swipe:UISwipeGestureRecognizerDirectionLeft :recognizer.numberOfTouches];
 }
 
 - (void)reportHorizontalSwipeRight:(UIGestureRecognizer *)recognizer
 {
-    [self swipe:UISwipeGestureRecognizerDirectionRight];
+    [self swipe:UISwipeGestureRecognizerDirectionRight :recognizer.numberOfTouches];
 }
 
-- (void)swipe:(UISwipeGestureRecognizerDirection)direction
+- (void)swipe:(UISwipeGestureRecognizerDirection)direction :(NSUInteger)number
 {
-	if(!self.fGameOver)
-	{
-        MainView *mainView = (MainView *)self.view;
-        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-        if (UIInterfaceOrientationIsLandscape(orientation)) {
-            switch (direction)
-            {
-                case UISwipeGestureRecognizerDirectionUp:
-                    [self vdMoveWorker:&ptlWorker :1];
-                    break;
-                case UISwipeGestureRecognizerDirectionDown:
-                    [self vdMoveWorker:&ptlWorker :3];
-                    break;
-                case UISwipeGestureRecognizerDirectionLeft:
-                    [self vdMoveWorker:&ptlWorker :0];
-                    break;
-                case UISwipeGestureRecognizerDirectionRight:
-                    [self vdMoveWorker:&ptlWorker :2];
-                    break;
+    for (int i = 0; i < number; i++) {
+        if(!self.fGameOver)
+        {
+            MainView *mainView = (MainView *)self.view;
+            UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+            if (UIInterfaceOrientationIsLandscape(orientation)) {
+                switch (direction)
+                {
+                    case UISwipeGestureRecognizerDirectionUp:
+                        [self vdMoveWorker:&ptlWorker :1];
+                        break;
+                    case UISwipeGestureRecognizerDirectionDown:
+                        [self vdMoveWorker:&ptlWorker :3];
+                        break;
+                    case UISwipeGestureRecognizerDirectionLeft:
+                        [self vdMoveWorker:&ptlWorker :0];
+                        break;
+                    case UISwipeGestureRecognizerDirectionRight:
+                        [self vdMoveWorker:&ptlWorker :2];
+                        break;
+                }
+            } else {
+                switch (direction)
+                {
+                    case UISwipeGestureRecognizerDirectionUp:
+                        [self vdMoveWorker:&ptlWorker :0];
+                        break;
+                    case UISwipeGestureRecognizerDirectionDown:
+                        [self vdMoveWorker:&ptlWorker :2];
+                        break;
+                    case UISwipeGestureRecognizerDirectionLeft:
+                        [self vdMoveWorker:&ptlWorker :3];
+                        break;
+                    case UISwipeGestureRecognizerDirectionRight:
+                        [self vdMoveWorker:&ptlWorker :1];
+                        break;
+                }
             }
-        } else {
-            switch (direction)
-            {
-                case UISwipeGestureRecognizerDirectionUp:
-                    [self vdMoveWorker:&ptlWorker :0];
-                    break;
-                case UISwipeGestureRecognizerDirectionDown:
-                    [self vdMoveWorker:&ptlWorker :2];
-                    break;
-                case UISwipeGestureRecognizerDirectionLeft:
-                    [self vdMoveWorker:&ptlWorker :3];
-                    break;
-                case UISwipeGestureRecognizerDirectionRight:
-                    [self vdMoveWorker:&ptlWorker :1];
-                    break;
+        
+            // Remove text
+            if (mainView.text != nil) {
+                mainView.text = nil;
+                [mainView invalidateText];
             }
-        }
         
-        // Remove text
-        if (mainView.text != nil) {
-            mainView.text = nil;
-            [mainView invalidateText];
-        }
-        
-		// ist das Spiel verloren
-		if(vdLose(mainView.board))
-		{
-			[self playSound:lostId];
-            self.fGameOver = YES;
-            self.undoButton.hidden = YES;
-            
-            // Ask to try again
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"One box has been moved into a corner, so you can no longer move it to its destination. Do you want to try again?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
-           [actionSheet showInView:self.view];
-		}
-        
-		// ist das Spiel gewonnen
-		if(!self.fGameOver && vdWin(mainView.board))
-		{
-			[self playSound:wonId];
-            // das Spiel ist gewonnen
-            self.fGameOver = YES;
-            self.undoButton.hidden = YES;
-            
-            // Ask to continue to the next level
-            if(mainView.sLevel < (NUMBER_OF_LEVELS - 1))
+            // ist das Spiel verloren
+            if(vdLose(mainView.board))
             {
-                self.fNextLevel = YES;
-                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Congratulations. Ready to try the next level?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
+                [self playSound:lostId];
+                self.fGameOver = YES;
+                self.undoButton.hidden = YES;
+            
+                // Ask to try again
+                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"One box has been moved into a corner, so you can no longer move it to its destination. Do you want to try again?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
                 [actionSheet showInView:self.view];
             }
+        
+            // ist das Spiel gewonnen
+            if(!self.fGameOver && vdWin(mainView.board))
+            {
+                [self playSound:wonId];
+                // das Spiel ist gewonnen
+                self.fGameOver = YES;
+                self.undoButton.hidden = YES;
             
-		}
-	}
+                // Ask to continue to the next level
+                if(mainView.sLevel < (NUMBER_OF_LEVELS - 1))
+                {
+                    self.fNextLevel = YES;
+                    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Congratulations. Ready to try the next level?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
+                    [actionSheet showInView:self.view];
+                }
+            
+            }
+        }
+    }
 }
 
 - (void) vdMoveWorker:(BoardLocation *) ppointlWorker :(short) sDir

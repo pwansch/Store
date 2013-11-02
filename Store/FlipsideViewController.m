@@ -29,6 +29,7 @@
 	// Load settings
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	self.soundSwitch.on = [defaults boolForKey:kSoundKey];
+    [self.levelPicker selectRow:[defaults integerForKey:kLevelKey] inComponent:0 animated:NO];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
