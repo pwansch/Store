@@ -30,6 +30,7 @@
 @property (assign, nonatomic) BOOL m_sound;
 @property (assign, nonatomic) BOOL fGameOver;
 @property (assign, nonatomic) BOOL fNextLevel;
+@property (assign, nonatomic) short sLastDir;
 @property (assign, nonatomic) Board boardUndo;
 @property (assign, nonatomic) BoardLocation ptlWorker;
 @property (assign, nonatomic) BoardLocation ptlWorkerUndo;

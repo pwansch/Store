@@ -1210,6 +1210,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     self.m_sound = [defaults boolForKey:kSoundKey];
     mainView.sLevel = [defaults integerForKey:kLevelKey];
     self.fNextLevel = NO;
+    self.sLastDir = -1;
     
     // Initialize gesture recognizers
     UISwipeGestureRecognizer *verticalUp1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeUp:)];
@@ -1228,23 +1229,16 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     horizontalRight1.direction = UISwipeGestureRecognizerDirectionRight;
     horizontalRight1.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:horizontalRight1];
-    UISwipeGestureRecognizer *verticalUp2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeUp:)];
-    verticalUp2.direction = UISwipeGestureRecognizerDirectionUp;
-    verticalUp2.numberOfTouchesRequired = 2;
-    [self.view addGestureRecognizer:verticalUp2];
-    UISwipeGestureRecognizer *verticalDown2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeDown:)];
-    verticalDown2.direction = UISwipeGestureRecognizerDirectionDown;
-    verticalDown2.numberOfTouchesRequired = 2;
-    [self.view addGestureRecognizer:verticalDown2];
-    UISwipeGestureRecognizer *horizontalLeft2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeLeft:)];
-    horizontalLeft2.direction = UISwipeGestureRecognizerDirectionLeft;
-    horizontalLeft2.numberOfTouchesRequired = 2;
-    [self.view addGestureRecognizer:horizontalLeft2];
-    UISwipeGestureRecognizer *horizontalRight2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeRight:)];
-    horizontalRight2.direction = UISwipeGestureRecognizerDirectionRight;
-    horizontalRight2.numberOfTouchesRequired = 2;
-    [self.view addGestureRecognizer:horizontalRight2];
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap)];
+    singleTap.numberOfTapsRequired = 1;
+    [singleTap requireGestureRecognizerToFail:verticalUp1];
+    [singleTap requireGestureRecognizerToFail:verticalDown1];
+    [singleTap requireGestureRecognizerToFail:horizontalLeft1];
+    [singleTap requireGestureRecognizerToFail:horizontalRight1];
+
     
+    [self.view addGestureRecognizer:singleTap];
+
     // Initialize variables
     [self initializeGame];
 }
@@ -1350,7 +1344,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 	// Initialize the game
     MainView *mainView = (MainView *)self.view;
     self.fGameOver = NO;
-    mainView.ulScore = 0;
+    mainView.ulMoves = 0;
     if (self.fNextLevel) {
         mainView.sLevel++;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -1367,7 +1361,41 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 		for(short y = 0; y < LINESY; y++)
 			boardIni.location[x][y] = BoardLevels[mainView.sLevel][x][y];
     mainView.board = boardIni;
-    mainView.text = [[NSString alloc] initWithFormat: @"Swipe to move the forklift."];
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        switch (mainView.board.location[ptlWorker.x][ptlWorker.y])
+        {
+            case 9: // Up
+                self.sLastDir = 1;
+                break;
+            case 11: // Down
+                self.sLastDir = 3;
+                break;
+            case 8: // Left
+                self.sLastDir = 0;
+                break;
+            case 10: // Right
+                self.sLastDir = 2;
+                break;
+        }
+    } else {
+        switch (mainView.board.location[ptlWorker.x][ptlWorker.y])
+        {
+            case 9: // Up
+                self.sLastDir = 1;
+                break;
+            case 11: // Down
+                self.sLastDir = 3;
+                break;
+            case 8: // Left
+                self.sLastDir = 0;
+                break;
+            case 10: // Right
+                self.sLastDir = 2;
+                break;
+        }
+    }
+    mainView.text = [[NSString alloc] initWithFormat: @"Swipe to change direction. Tap to move forward."];
     
 	// Draw the view
 	[mainView setNeedsDisplay];
@@ -1388,6 +1416,44 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
         // Unable to show undo
         [self playSound:illegalId];
     }
+}
+
+- (void)doSingleTap
+{
+	if (self.sLastDir != -1) {
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            switch (self.sLastDir) {
+                case 0:
+                    [self swipe:UISwipeGestureRecognizerDirectionLeft :1];
+                    break;
+                case 1:
+                    [self swipe:UISwipeGestureRecognizerDirectionUp :1];
+                    break;
+                case 2:
+                    [self swipe:UISwipeGestureRecognizerDirectionRight :1];
+                    break;
+                case 3:
+                    [self swipe:UISwipeGestureRecognizerDirectionDown :1];
+                    break;
+            }
+        } else {
+            switch (self.sLastDir) {
+                case 0:
+                    [self swipe:UISwipeGestureRecognizerDirectionUp :1];
+                    break;
+                case 1:
+                    [self swipe:UISwipeGestureRecognizerDirectionRight :1];
+                    break;
+                case 2:
+                    [self swipe:UISwipeGestureRecognizerDirectionDown :1];
+                    break;
+                case 3:
+                    [self swipe:UISwipeGestureRecognizerDirectionLeft :1];
+                    break;
+            }
+        }
+	}
 }
 
 - (void)reportVerticalSwipeUp:(UIGestureRecognizer *)recognizer
@@ -1421,15 +1487,19 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
                 switch (direction)
                 {
                     case UISwipeGestureRecognizerDirectionUp:
+                        self.sLastDir = 1;
                         [self vdMoveWorker:&ptlWorker :1];
                         break;
                     case UISwipeGestureRecognizerDirectionDown:
+                        self.sLastDir = 3;
                         [self vdMoveWorker:&ptlWorker :3];
                         break;
                     case UISwipeGestureRecognizerDirectionLeft:
+                        self.sLastDir = 0;
                         [self vdMoveWorker:&ptlWorker :0];
                         break;
                     case UISwipeGestureRecognizerDirectionRight:
+                        self.sLastDir = 2;
                         [self vdMoveWorker:&ptlWorker :2];
                         break;
                 }
@@ -1437,20 +1507,24 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
                 switch (direction)
                 {
                     case UISwipeGestureRecognizerDirectionUp:
+                        self.sLastDir = 0;
                         [self vdMoveWorker:&ptlWorker :0];
                         break;
                     case UISwipeGestureRecognizerDirectionDown:
+                        self.sLastDir = 2;
                         [self vdMoveWorker:&ptlWorker :2];
                         break;
                     case UISwipeGestureRecognizerDirectionLeft:
+                        self.sLastDir = 3;
                         [self vdMoveWorker:&ptlWorker :3];
                         break;
                     case UISwipeGestureRecognizerDirectionRight:
+                        self.sLastDir = 1;
                         [self vdMoveWorker:&ptlWorker :1];
                         break;
                 }
             }
-        
+            
             // Remove text
             if (mainView.text != nil) {
                 mainView.text = nil;
@@ -1498,6 +1572,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     PBoard pBoard = [mainView getBoardPointer];
     
     // Save last board for undo
+    self.sLastDir = sDir;
     self.boardUndo = mainView.board;
     self.ptlWorkerUndo = self.ptlWorker;
     
@@ -1580,12 +1655,12 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
             break;
     } 
     
-    // Draw the moves and update the score
+    // Draw the moves and update the moves
     [mainView invalidateBoard:ptlNext.x :ptlNext.y];
     [mainView invalidateBoard:ppointlWorker->x :ppointlWorker->y];
     [mainView invalidateBoard:ptlIni.x :ptlIni.y];
-    mainView.ulScore++;
-    [mainView invalidateScore];
+    mainView.ulMoves++;
+    [mainView invalidateMoves];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -1604,6 +1679,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
         self.flipsidePopoverController = nil;
     }
     
+/*
     // Change the location of the buttons
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
         self.gameButton.frame = CGRectMake(20, self.view.bounds.size.height - 79, 60, 30);
@@ -1612,6 +1688,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
         self.gameButton.frame = CGRectMake(20, self.view.bounds.size.height - 44, 60, 30);
         self.undoButton.frame = CGRectMake(88, self.view.bounds.size.height - 44, 60, 30);
     }
+*/
 }
 
 @end

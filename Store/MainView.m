@@ -84,22 +84,22 @@
         }
     }
     
-    // Draw score
-    CGRect scoreRect = [self scoreRect];
-    if (CGRectIntersectsRect(scoreRect, rect)) {
-        NSString *score = [NSString stringWithFormat:@"Score: %06ld", self.ulScore];
-        [score drawInRect:scoreRect withAttributes:dictionaryWhite];
+    // Draw moves
+    CGRect movesRect = [self movesRect];
+    if (CGRectIntersectsRect(movesRect, rect)) {
+        NSString *moves = [NSString stringWithFormat:@"%06ld", self.ulMoves];
+        [moves drawInRect:movesRect withAttributes:dictionaryWhite];
     }
     
     // Draw level
     CGRect levelRect = [self levelRect];
     if (CGRectIntersectsRect(levelRect, rect)) {
-        NSString *level = [NSString stringWithFormat:@"Level: %02d", self.sLevel + 1];
+        NSString *level = [NSString stringWithFormat:@"%02d", self.sLevel + 1];
         [level drawInRect:levelRect withAttributes:dictionaryWhite];
     }
 }
 
-- (CGRect)scoreRect
+- (CGRect)movesRect
 {
     CGPoint ptlOffset = [self ptlOffset];
     CGRect rect;
@@ -108,9 +108,11 @@
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         if (UIInterfaceOrientationIsLandscape(orientation)) {
-            rect.origin.y = ptlOffset.y + HEIGHTY - FONT_SIZE_IPHONE - FONT_INSET;
+            short emptyLines = [self emptyBoardLines];
+            rect.origin.y = ptlOffset.y + ((HEIGHTY * emptyLines) - FONT_SIZE_IPHONE - FONT_INSET) / 2 + FONT_INSET / 2;
         } else {
-            rect.origin.y = ptlOffset.y + WIDTHX - FONT_SIZE_IPHONE - FONT_INSET;
+            short emptyColumns = [self emptyBoardColumns];
+            rect.origin.y = ptlOffset.y + ((WIDTHX * emptyColumns) - FONT_SIZE_IPHONE - FONT_INSET) / 2 + FONT_INSET / 2;
         }
         rect.size.height = FONT_SIZE_IPHONE + FONT_INSET;
     } else {
@@ -134,9 +136,11 @@
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         if (UIInterfaceOrientationIsLandscape(orientation)) {
-            rect.origin.y = ptlOffset.y + HEIGHTY - FONT_SIZE_IPHONE - FONT_INSET;
+            short emptyLines = [self emptyBoardLines];
+            rect.origin.y = ptlOffset.y + ((HEIGHTY * emptyLines) - FONT_SIZE_IPHONE - FONT_INSET) / 2 + FONT_INSET / 2;
         } else {
-            rect.origin.y = ptlOffset.y + WIDTHX - FONT_SIZE_IPHONE - FONT_INSET;
+            short emptyColumns = [self emptyBoardColumns];
+            rect.origin.y = ptlOffset.y + ((WIDTHX * emptyColumns) - FONT_SIZE_IPHONE - FONT_INSET) / 2 + FONT_INSET / 2;
         }
         rect.size.height = FONT_SIZE_IPHONE + FONT_INSET;
     } else {
@@ -149,6 +153,30 @@
         rect.size.height = FONT_SIZE_IPAD + FONT_INSET;
     }
     return rect;
+}
+
+- (short)emptyBoardLines
+{
+    short x, y;
+    for(y = (LINESY - 1); y > 0; y--) {
+        for(x = 0; x < COLUMNSX; x++) {
+            if (self.board.location[x][y] != 5)
+                return (LINESY - 1 - y);
+        }
+    }
+    return (LINESY - y);
+}
+
+- (short)emptyBoardColumns
+{
+    short x, y;
+    for(x = 0; x < COLUMNSX; x++) {
+        for(y = 0; y < LINESY; y++) {
+            if (self.board.location[x][y] != 5)
+                return x;
+        }
+    }
+    return x;
 }
 
 - (CGPoint)ptlOffset
@@ -184,9 +212,9 @@
     [self setNeedsDisplayInRect:[self boardRect:x :y]];
 }
 
-- (void)invalidateScore
+- (void)invalidateMoves
 {
-    [self setNeedsDisplayInRect:[self scoreRect]];
+    [self setNeedsDisplayInRect:[self movesRect]];
 }
 
 - (void)invalidateLevel
