@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "Algorithm.h"
 
-#define WIDTHX              22
-#define HEIGHTY             18
+#define WIDTHX_IPHONE       22
+#define HEIGHTY_IPHONE      18
+#define WIDTHX_IPAD         44
+#define HEIGHTY_IPAD        36
 #define FONT_SIZE_IPHONE    14
 #define FONT_SIZE_IPAD      28
 #define FONT_INSET          5
@@ -23,6 +25,8 @@
 @property (assign, nonatomic) Board board;
 @property (assign, nonatomic) unsigned long ulMoves;
 @property (assign, nonatomic) short sLevel;
+@property (assign, nonatomic) short WIDTHX;
+@property (assign, nonatomic) short HEIGHTY;
 
 - (CGRect)movesRect;
 - (CGRect)levelRect;

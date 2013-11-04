@@ -17,11 +17,23 @@
 @implementation MainView
 
 @synthesize board;
+@synthesize WIDTHX;
+@synthesize HEIGHTY;
 
 - (id)initWithCoder:(NSCoder *)coder {
 	if ((self = [super initWithCoder:coder]))
 	{
         // Initialization code
+        CGFloat scale;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            WIDTHX = WIDTHX_IPHONE;
+            HEIGHTY = HEIGHTY_IPHONE;
+            scale = 1.0;
+        } else {
+            WIDTHX = WIDTHX_IPAD;
+            HEIGHTY = HEIGHTY_IPAD;
+            scale = 0.5;
+        }
         self.text = nil;
         
         // Load images
@@ -29,9 +41,12 @@
         self.hbmBoardRotated = [[NSMutableArray alloc] initWithCapacity:12];
         for (short i = 0; i < 12; i++) {
             UIImage *boardImage = [UIImage imageNamed:[NSString stringWithFormat:@"%i.bmp", i]];
-            [self.hbmBoard addObject:boardImage];
+            UIImage *scaledImage = [[UIImage alloc] initWithCGImage: boardImage.CGImage
+                                                              scale: scale
+                                                        orientation: UIImageOrientationUp];
+            [self.hbmBoard addObject:scaledImage];
             UIImage *rotatedImage = [[UIImage alloc] initWithCGImage: boardImage.CGImage
-                                                               scale: 1.0
+                                                               scale: scale
                                                           orientation: UIImageOrientationRight];
             [self.hbmBoardRotated addObject:rotatedImage];
         }
@@ -139,11 +154,12 @@
         }
         rect.size.height = FONT_SIZE_IPHONE + FONT_INSET;
     } else {
-        rect.origin.y = ptlOffset.y + HEIGHTY - FONT_SIZE_IPAD;
         if (UIInterfaceOrientationIsLandscape(orientation)) {
-            rect.origin.y = ptlOffset.y + HEIGHTY - FONT_SIZE_IPAD - FONT_INSET;
+            short emptyLines = [self emptyBoardLines];
+            rect.origin.y = (ptlOffset.y + (HEIGHTY * emptyLines) - FONT_SIZE_IPAD) / 2;
         } else {
-            rect.origin.y = ptlOffset.y + WIDTHX - FONT_SIZE_IPAD - FONT_INSET;
+            short emptyColumns = [self emptyBoardColumns];
+            rect.origin.y = (ptlOffset.y + (WIDTHX * emptyColumns) - FONT_SIZE_IPAD) / 2 + FONT_INSET;
         }
         rect.size.height = FONT_SIZE_IPAD + FONT_INSET;
     }
@@ -167,11 +183,12 @@
         }
         rect.size.height = FONT_SIZE_IPHONE + FONT_INSET;
     } else {
-        rect.origin.y = ptlOffset.y + HEIGHTY - FONT_SIZE_IPAD;
         if (UIInterfaceOrientationIsLandscape(orientation)) {
-            rect.origin.y = ptlOffset.y + HEIGHTY - FONT_SIZE_IPAD - FONT_INSET;
+            short emptyLines = [self emptyBoardLines];
+            rect.origin.y = (ptlOffset.y + (HEIGHTY * emptyLines) - FONT_SIZE_IPAD) / 2;
         } else {
-            rect.origin.y = ptlOffset.y + WIDTHX - FONT_SIZE_IPAD - FONT_INSET;
+            short emptyColumns = [self emptyBoardColumns];
+            rect.origin.y = (ptlOffset.y + (WIDTHX * emptyColumns) - FONT_SIZE_IPAD) / 2 + FONT_INSET;
         }
         rect.size.height = FONT_SIZE_IPAD + FONT_INSET;
     }
