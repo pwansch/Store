@@ -13,6 +13,7 @@
 #define kVersionKey			@"version"
 #define kSoundKey			@"sound"
 #define kLevelKey			@"level"
+#define kNewLevelKey		@"newLevel"
 
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate, UIPopoverControllerDelegate, UIActionSheetDelegate>
 

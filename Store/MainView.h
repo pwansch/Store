@@ -13,7 +13,7 @@
 #define HEIGHTY             18
 #define FONT_SIZE_IPHONE    14
 #define FONT_SIZE_IPAD      28
-#define FONT_INSET          3
+#define FONT_INSET          5
 
 @interface MainView : UIView
 
@@ -26,6 +26,7 @@
 
 - (CGRect)movesRect;
 - (CGRect)levelRect;
+- (CGRect)textRect;
 - (CGRect)boardRect:(short)x :(short)y;
 - (void)invalidateBoard:(short)x :(short)y;
 - (void)invalidateMoves;

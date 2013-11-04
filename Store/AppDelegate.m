@@ -20,6 +20,7 @@
 									 @"1.1", kVersionKey,
 									 @"YES", kSoundKey,
                                      @"0", kLevelKey,
+                                     @"0", kNewLevelKey,
                                      nil];
 		[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 		[[NSUserDefaults standardUserDefaults] synchronize];

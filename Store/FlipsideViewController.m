@@ -29,7 +29,7 @@
 	// Load settings
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	self.soundSwitch.on = [defaults boolForKey:kSoundKey];
-    [self.levelPicker selectRow:[defaults integerForKey:kLevelKey] inComponent:0 animated:NO];
+    [self.levelPicker selectRow:[defaults integerForKey:kNewLevelKey] inComponent:0 animated:NO];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -58,7 +58,7 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setBool:self.soundSwitch.on forKey:kSoundKey];
     NSInteger row = [self.levelPicker selectedRowInComponent:0];
-    [defaults setInteger:row forKey:kLevelKey];
+    [defaults setInteger:row forKey:kNewLevelKey];
 	[defaults synchronize];
     [self.delegate flipsideViewControllerDidFinish:self];
 }

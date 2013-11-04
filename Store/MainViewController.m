@@ -1265,9 +1265,8 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     MainView *mainView = (MainView *)self.view;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.m_sound = [defaults boolForKey:kSoundKey];
-    short sLevel = [defaults integerForKey:kLevelKey];
-    if (mainView.sLevel != sLevel) {
-        mainView.sLevel = sLevel;
+    short sNewLevel = [defaults integerForKey:kNewLevelKey];
+    if (mainView.sLevel != sNewLevel) {
         [self newGame:controller];
     }
     
@@ -1345,13 +1344,18 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     MainView *mainView = (MainView *)self.view;
     self.fGameOver = NO;
     mainView.ulMoves = 0;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (self.fNextLevel) {
         mainView.sLevel++;
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setInteger:mainView.sLevel forKey:kLevelKey];
-        [defaults synchronize];
         self.fNextLevel = NO;
+    } else {
+        short sNewLevel = [defaults integerForKey:kNewLevelKey];
+        mainView.sLevel = sNewLevel;
+        [defaults setInteger:mainView.sLevel forKey:kLevelKey];
     }
+    [defaults synchronize];
+    
     self.ptlWorker = ptlWorkerInitial[mainView.sLevel];
     self.undoButton.hidden = NO;
 
@@ -1395,7 +1399,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
                 break;
         }
     }
-    mainView.text = [[NSString alloc] initWithFormat: @"Swipe to change direction. Tap to move forward."];
+    mainView.text = [[NSString alloc] initWithFormat: @"Swipe to change direction. Tap to move."];
     
 	// Draw the view
 	[mainView setNeedsDisplay];
