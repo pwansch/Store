@@ -104,9 +104,9 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">The object of the game is to clean up a store room with as few moves as possible by pushing all the boxes to their respective place with a forklift truck. You move the forklift by tapping with one finger. You change direction by swiping with one finger. You can only push one box at a time. 
+                                <string key="text">The object of the game is to clean up a storeroom with as few moves as possible by pushing all the boxes to their respective place with a forklift truck. You move the forklift by tapping with one finger. You change direction by swiping with one finger. You can only push one box at a time. 
 
-Do not push boxes into a corner or any other position from where they cannot be pushed away. After you have successfully cleaned up one store room, you will advance to the next level. Each level increases in difficulty.</string>
+Do not push boxes into a corner or any other position from where they cannot be pushed away. After you have successfully cleaned up one storeroom, you will advance to the next level. Each level increases in difficulty.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>

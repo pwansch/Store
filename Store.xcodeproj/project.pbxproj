@@ -519,6 +519,7 @@
 				GCC_PREFIX_HEADER = "Store/Store-Prefix.pch";
 				INFOPLIST_FILE = "Store/Store-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9DA64A6E-02F9-4EAE-94B1-7E3590A92202";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
