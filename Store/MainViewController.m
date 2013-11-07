@@ -1212,6 +1212,24 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     self.fNextLevel = NO;
     self.sLastDir = -1;
     
+    // Initialize gesture recognizers
+    UISwipeGestureRecognizer *verticalUp1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeUp:)];
+    verticalUp1.direction = UISwipeGestureRecognizerDirectionUp;
+    verticalUp1.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:verticalUp1];
+    UISwipeGestureRecognizer *verticalDown1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportVerticalSwipeDown:)];
+    verticalDown1.direction = UISwipeGestureRecognizerDirectionDown;
+    verticalDown1.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:verticalDown1];
+    UISwipeGestureRecognizer *horizontalLeft1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeLeft:)];
+    horizontalLeft1.direction = UISwipeGestureRecognizerDirectionLeft;
+    horizontalLeft1.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:horizontalLeft1];
+    UISwipeGestureRecognizer *horizontalRight1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(reportHorizontalSwipeRight:)];
+    horizontalRight1.direction = UISwipeGestureRecognizerDirectionRight;
+    horizontalRight1.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:horizontalRight1];
+    
     // Initialize variables
     [self initializeGame];
 }
@@ -1316,7 +1334,6 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 	// Initialize the game
     MainView *mainView = (MainView *)self.view;
     self.fGameOver = NO;
-    self.gesture = NO;
     mainView.ulMoves = 0;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (self.fNextLevel) {
@@ -1396,122 +1413,24 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     }
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)reportVerticalSwipeUp:(UIGestureRecognizer *)recognizer
 {
-    if (!self.gesture) {
-        self.gesture = YES;
-        UITouch *touch = [touches anyObject];
-        self.gestureStartPoint = [touch locationInView:self.view];
-    }
+    [self swipe:UISwipeGestureRecognizerDirectionUp :recognizer.numberOfTouches];
 }
 
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)reportVerticalSwipeDown:(UIGestureRecognizer *)recognizer
 {
-    self.gesture = NO;
+    [self swipe:UISwipeGestureRecognizerDirectionDown :recognizer.numberOfTouches];
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)reportHorizontalSwipeLeft:(UIGestureRecognizer *)recognizer
 {
-    if (self.gesture) {
-        UITouch *touch = [touches anyObject];
-        CGPoint currentPosition = [touch locationInView:self.view];
-        CGFloat deltaX = self.gestureStartPoint.x - currentPosition.x;
-        CGFloat deltaY = self.gestureStartPoint.y - currentPosition.y;
-        CGFloat widthX, heightY;
-        CGFloat multiplier;
-        
-        MainView *mainView = (MainView *)self.view;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            multiplier = 2.0;
-        } else {
-            multiplier = 1.0;
-        }
-        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-        if (UIInterfaceOrientationIsLandscape(orientation)) {
-            widthX = multiplier * mainView.WIDTHX;
-            heightY = multiplier * mainView.HEIGHTY;
-        } else {
-            widthX = multiplier * mainView.HEIGHTY;
-            heightY = multiplier * mainView.WIDTHX;
-        }
-    
-        if (fabsf(deltaX) >= widthX && fabsf(deltaY) <= kMaximumVariance) {
-            // Horizontal swipe
-            if (deltaX > 0) {
-                // Left swipe
-                [self swipe:UISwipeGestureRecognizerDirectionLeft :1];
-                self.gestureStartPoint = currentPosition;
-            } else {
-                // Left swipe
-                [self swipe:UISwipeGestureRecognizerDirectionRight :1];
-                self.gestureStartPoint = currentPosition;
-            }
-        } else if (fabsf(deltaY) >= heightY && fabsf(deltaX) <= kMaximumVariance) {
-            // Vertical swipe
-            if (deltaY > 0) {
-                // Up swipe
-                [self swipe:UISwipeGestureRecognizerDirectionUp :1];
-                self.gestureStartPoint = currentPosition;
-            } else {
-                // Down swipe
-                [self swipe:UISwipeGestureRecognizerDirectionDown :1];
-                self.gestureStartPoint = currentPosition;
-            }
-        }
-    }
+    [self swipe:UISwipeGestureRecognizerDirectionLeft :recognizer.numberOfTouches];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)reportHorizontalSwipeRight:(UIGestureRecognizer *)recognizer
 {
-    if (self.gesture) {
-        UITouch *touch = [touches anyObject];
-        CGPoint currentPosition = [touch locationInView:self.view];
-        CGFloat deltaX = self.gestureStartPoint.x - currentPosition.x;
-        CGFloat deltaY = self.gestureStartPoint.y - currentPosition.y;
-        CGFloat widthX, heightY;
-        CGFloat multiplier;
-        
-        MainView *mainView = (MainView *)self.view;
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            multiplier = 2.0;
-        } else {
-            multiplier = 1.0;
-        }
-        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-        if (UIInterfaceOrientationIsLandscape(orientation)) {
-            widthX = multiplier * mainView.WIDTHX;
-            heightY = multiplier * mainView.HEIGHTY;
-        } else {
-            widthX = multiplier * mainView.HEIGHTY;
-            heightY = multiplier * mainView.WIDTHX;
-        }
-        
-        if (fabsf(deltaX) >= widthX && fabsf(deltaY) <= kMaximumVariance) {
-            // Horizontal swipe
-            if (deltaX > 0) {
-                // Left swipe
-                [self swipe:UISwipeGestureRecognizerDirectionLeft :1];
-                self.gestureStartPoint = currentPosition;
-            } else {
-                // Left swipe
-                [self swipe:UISwipeGestureRecognizerDirectionRight :1];
-                self.gestureStartPoint = currentPosition;
-            }
-        } else if (fabsf(deltaY) >= heightY && fabsf(deltaX) <= kMaximumVariance) {
-            // Vertical swipe
-            if (deltaY > 0) {
-                // Up swipe
-                [self swipe:UISwipeGestureRecognizerDirectionUp :1];
-                self.gestureStartPoint = currentPosition;
-            } else {
-                // Down swipe
-                [self swipe:UISwipeGestureRecognizerDirectionDown :1];
-                self.gestureStartPoint = currentPosition;
-            }
-        }
-        self.gesture = NO;
-    }
-
+    [self swipe:UISwipeGestureRecognizerDirectionRight :recognizer.numberOfTouches];
 }
 
 - (void)swipe:(UISwipeGestureRecognizerDirection)direction :(NSUInteger)number

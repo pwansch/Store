@@ -14,7 +14,6 @@
 #define kSoundKey			@"sound"
 #define kLevelKey			@"level"
 #define kNewLevelKey		@"newLevel"
-#define kMaximumVariance    5
 
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate, UIPopoverControllerDelegate, UIActionSheetDelegate>
 
@@ -36,8 +35,6 @@
 @property (assign, nonatomic) Board boardUndo;
 @property (assign, nonatomic) BoardLocation ptlWorker;
 @property (assign, nonatomic) BoardLocation ptlWorkerUndo;
-@property (assign, nonatomic) BOOL gesture;
-@property (assign, nonatomic) CGPoint gestureStartPoint;
 
 - (IBAction)newGame:(id)sender;
 - (void)playSound:(SystemSoundID)soundID;
