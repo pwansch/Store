@@ -1418,15 +1418,21 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
         CGFloat deltaX = self.gestureStartPoint.x - currentPosition.x;
         CGFloat deltaY = self.gestureStartPoint.y - currentPosition.y;
         CGFloat widthX, heightY;
-    
+        CGFloat multiplier;
+        
         MainView *mainView = (MainView *)self.view;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            multiplier = 2.0;
+        } else {
+            multiplier = 1.0;
+        }
         UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
         if (UIInterfaceOrientationIsLandscape(orientation)) {
-            widthX = mainView.WIDTHX;
-            heightY = mainView.HEIGHTY;
+            widthX = multiplier * mainView.WIDTHX;
+            heightY = multiplier * mainView.HEIGHTY;
         } else {
-            widthX = mainView.HEIGHTY;
-            heightY = mainView.WIDTHX;
+            widthX = multiplier * mainView.HEIGHTY;
+            heightY = multiplier * mainView.WIDTHX;
         }
     
         if (fabsf(deltaX) >= widthX && fabsf(deltaY) <= kMaximumVariance) {
@@ -1457,7 +1463,55 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    self.gesture = NO;
+    if (self.gesture) {
+        UITouch *touch = [touches anyObject];
+        CGPoint currentPosition = [touch locationInView:self.view];
+        CGFloat deltaX = self.gestureStartPoint.x - currentPosition.x;
+        CGFloat deltaY = self.gestureStartPoint.y - currentPosition.y;
+        CGFloat widthX, heightY;
+        CGFloat multiplier;
+        
+        MainView *mainView = (MainView *)self.view;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            multiplier = 2.0;
+        } else {
+            multiplier = 1.0;
+        }
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            widthX = multiplier * mainView.WIDTHX;
+            heightY = multiplier * mainView.HEIGHTY;
+        } else {
+            widthX = multiplier * mainView.HEIGHTY;
+            heightY = multiplier * mainView.WIDTHX;
+        }
+        
+        if (fabsf(deltaX) >= widthX && fabsf(deltaY) <= kMaximumVariance) {
+            // Horizontal swipe
+            if (deltaX > 0) {
+                // Left swipe
+                [self swipe:UISwipeGestureRecognizerDirectionLeft :1];
+                self.gestureStartPoint = currentPosition;
+            } else {
+                // Left swipe
+                [self swipe:UISwipeGestureRecognizerDirectionRight :1];
+                self.gestureStartPoint = currentPosition;
+            }
+        } else if (fabsf(deltaY) >= heightY && fabsf(deltaX) <= kMaximumVariance) {
+            // Vertical swipe
+            if (deltaY > 0) {
+                // Up swipe
+                [self swipe:UISwipeGestureRecognizerDirectionUp :1];
+                self.gestureStartPoint = currentPosition;
+            } else {
+                // Down swipe
+                [self swipe:UISwipeGestureRecognizerDirectionDown :1];
+                self.gestureStartPoint = currentPosition;
+            }
+        }
+        self.gesture = NO;
+    }
+
 }
 
 - (void)swipe:(UISwipeGestureRecognizerDirection)direction :(NSUInteger)number
@@ -1662,17 +1716,6 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
         [self.flipsidePopoverController dismissPopoverAnimated:YES];
         self.flipsidePopoverController = nil;
     }
-    
-/*
-    // Change the location of the buttons
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-        self.gameButton.frame = CGRectMake(20, self.view.bounds.size.height - 79, 60, 30);
-        self.undoButton.frame = CGRectMake(20, self.view.bounds.size.height - 44, 60, 30);
-    } else {
-        self.gameButton.frame = CGRectMake(20, self.view.bounds.size.height - 44, 60, 30);
-        self.undoButton.frame = CGRectMake(88, self.view.bounds.size.height - 44, 60, 30);
-    }
-*/
 }
 
 @end
