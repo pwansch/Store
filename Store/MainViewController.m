@@ -1390,7 +1390,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
                 break;
         }
     }
-    mainView.text = [[NSString alloc] initWithFormat: @"Swipe to change direction. Tap to move."];
+    mainView.text = [[NSString alloc] initWithFormat: @"Swipe to move forklift."];
     
 	// Draw the view
 	[mainView setNeedsDisplay];
