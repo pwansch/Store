@@ -13,6 +13,7 @@
 - (void)initializeGame;
 - (void)swipe:(UISwipeGestureRecognizerDirection)direction :(NSUInteger)number;
 - (void) vdMoveWorker:(BoardLocation *) ppointlWorker :(short) sDir;
+- (void)doSingleTap;
 @end
 
 @implementation MainViewController
@@ -1229,6 +1230,13 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     horizontalRight1.direction = UISwipeGestureRecognizerDirectionRight;
     horizontalRight1.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:horizontalRight1];
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap)];
+    singleTap.numberOfTapsRequired = 1;
+    [singleTap requireGestureRecognizerToFail:verticalUp1];
+    [singleTap requireGestureRecognizerToFail:verticalDown1];
+    [singleTap requireGestureRecognizerToFail:horizontalLeft1];
+    [singleTap requireGestureRecognizerToFail:horizontalRight1];
+    [self.view addGestureRecognizer:singleTap];
     
     // Initialize variables
     [self initializeGame];
@@ -1338,6 +1346,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (self.fNextLevel) {
         mainView.sLevel++;
+        [defaults setInteger:mainView.sLevel forKey:kNewLevelKey];
         [defaults setInteger:mainView.sLevel forKey:kLevelKey];
         self.fNextLevel = NO;
     } else {
@@ -1390,7 +1399,7 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
                 break;
         }
     }
-    mainView.text = [[NSString alloc] initWithFormat: @"Swipe to move forklift."];
+    mainView.text = [[NSString alloc] initWithFormat: @"Swipe to change direction. Tap to move forward."];
     
 	// Draw the view
 	[mainView setNeedsDisplay];
@@ -1411,6 +1420,44 @@ short BoardLevels[NUMBER_OF_LEVELS][COLUMNSX][LINESY] = {
         // Unable to show undo
         [self playSound:illegalId];
     }
+}
+
+- (void)doSingleTap
+{
+	if (self.sLastDir != -1) {
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            switch (self.sLastDir) {
+                case 0:
+                    [self swipe:UISwipeGestureRecognizerDirectionLeft :1];
+                    break;
+                case 1:
+                    [self swipe:UISwipeGestureRecognizerDirectionUp :1];
+                    break;
+                case 2:
+                    [self swipe:UISwipeGestureRecognizerDirectionRight :1];
+                    break;
+                case 3:
+                    [self swipe:UISwipeGestureRecognizerDirectionDown :1];
+                    break;
+            }
+        } else {
+            switch (self.sLastDir) {
+                case 0:
+                    [self swipe:UISwipeGestureRecognizerDirectionUp :1];
+                    break;
+                case 1:
+                    [self swipe:UISwipeGestureRecognizerDirectionRight :1];
+                    break;
+                case 2:
+                    [self swipe:UISwipeGestureRecognizerDirectionDown :1];
+                    break;
+                case 3:
+                    [self swipe:UISwipeGestureRecognizerDirectionLeft :1];
+                    break;
+            }
+        }
+	}
 }
 
 - (void)reportVerticalSwipeUp:(UIGestureRecognizer *)recognizer

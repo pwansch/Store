@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="rQl-PL-IFJ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -99,9 +99,9 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">The object of the game is to clean up a storeroom with as few moves as possible by pushing all the boxes to their respective place with a forklift truck. You move the forklift by swiping with one finger. You can only push one box at a time. 
+                                <mutableString key="text">The object of the game is to clean up a storeroom with as few moves as possible by pushing all the boxes to their respective place with a forklift truck. Change direction of the forklift by swiping in the desired direction. Move the forklift forward by tapping with one finger. You can only push one box at a time. 
 
-Do not push boxes into a corner or any other position from where they cannot be pushed away. After you have successfully cleaned up one storeroom, you will advance to the next level. Each level increases in difficulty.</string>
+Do not push boxes into a corner or any other position from where they cannot be pushed away. After you have successfully cleaned up one storeroom, you will advance to the next level. Each level increases in difficulty.</mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
